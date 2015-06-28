@@ -1,0 +1,27 @@
+[
+    {
+        "name": "Foo",
+        "Age": "12",
+        "subjects": 
+            [{
+                "name": "aa",
+                "score": "40"
+            }]
+        
+    },
+    {
+        "name": "Bar",
+        "Age": "12",
+        "subjects": 
+            [{
+                "name": "bb",
+                "score": "40"
+            }]
+        
+    },
+    {
+        "name": "Baz",
+        "Age": "12",
+        "subjects": []
+    }
+]
