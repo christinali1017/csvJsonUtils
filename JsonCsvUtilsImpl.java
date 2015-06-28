@@ -13,23 +13,25 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import au.com.bytecode.opencsv.CSVReader;
 
 public class JsonCsvUtilsImpl implements JsonCsvUtils {
-	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
-		JsonCsvUtilsImpl j2c = new JsonCsvUtilsImpl();
-		j2c.jsonToCsv();
-		j2c.csvToJson();
+	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException, JSONException {
+		JsonCsvUtils j2c = new JsonCsvUtilsImpl();
+		j2c.jsonToCsv("jsonArray.json", "res.csv");
+		j2c.csvToJson("demo.csv", "demo.json");
 	}
 
 	@Override
-	public void jsonToCsv() throws FileNotFoundException, IOException, ParseException {
+	public void jsonToCsv(final String inputPath, final String outputPath) throws FileNotFoundException, IOException, ParseException {
 		 JSONParser parser = new JSONParser();
-	     Object object = parser.parse(new FileReader("jsonArray.json"));
+	     Object object = parser.parse(new FileReader(inputPath));
 		 List<Map<String, String>> jsonList = new ArrayList<Map<String, String>>();
 		 //Check if input JSON file is JSONArray or JSONObject
 	     if (object.getClass() == JSONObject.class) {
@@ -37,14 +39,14 @@ public class JsonCsvUtilsImpl implements JsonCsvUtils {
 	     } else if (object.getClass() == JSONArray.class) {
 	    	 jsonList = parseJsonArray((JSONArray) object);
 	     }
-	     saveToCsv(jsonList, "res.csv");	 
+	     saveToCsv(jsonList, outputPath);	 
 	}
 	
 	@SuppressWarnings({ "unchecked", "resource" })
 	@Override
-	public void csvToJson() throws IOException {
-		CSVReader reader = new CSVReader(new FileReader("demo.csv"));
-		FileWriter file = new FileWriter("demo.json");
+	public void csvToJson(final String inputPath, final String outputPath) throws IOException {
+		CSVReader reader = new CSVReader(new FileReader(inputPath));
+		FileWriter file = new FileWriter(outputPath);
 		
 		List<String[]> csv = reader.readAll();
 		if (csv.size() != 0) {
