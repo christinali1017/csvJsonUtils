@@ -101,8 +101,9 @@ public class JsonCsvUtilsImpl implements JsonCsvUtils {
                 flattenToList(jsonArray, jsonMap, key);
             } else {
                 String value = (String) obj.get(key);
-                if (value != null && !value.equals("null"))
+                if (value != null && !value.equals("null")) {
                 	jsonMap.put(prefix + key, value);
+                }
             } 
         }
     }
@@ -142,8 +143,9 @@ public class JsonCsvUtilsImpl implements JsonCsvUtils {
                 flattenToList(jsonObject, jsonMap, prefix + ".");
             } else {
                 String value = (String) obj.get(i);
-                if (value != null)
+                if (value != null) {
                 	jsonMap.put(prefix + ".", value);
+                }
             }
         }
     }
