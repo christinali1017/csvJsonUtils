@@ -72,7 +72,7 @@ public class JsonCsvUtilsImpl implements JsonCsvUtils {
 	private List<Map<String, String>> parseJsonObject(JSONObject jsonObject) {
 		List<Map<String, String>> jsonList =  new ArrayList<Map<String, String>>();
 		Map<String, String> jsonMap = new LinkedHashMap<String, String>();
-		flattenToList(jsonObject, jsonMap, "");
+		flattenToMap(jsonObject, jsonMap, "");
 		jsonList.add(jsonMap);
 		return jsonList;
 	}
@@ -82,23 +82,23 @@ public class JsonCsvUtilsImpl implements JsonCsvUtils {
 		for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = (JSONObject) jsonArray.get(i);
             Map<String, String> jsonMap = new LinkedHashMap<String, String>();
-            flattenToList(jsonObject, jsonMap, "");            
+            flattenToMap(jsonObject, jsonMap, "");            
     	    jsonList.add(jsonMap);
         }
 		return jsonList;
 	}
 	
     @SuppressWarnings("unchecked")
-	private void flattenToList(JSONObject obj, Map<String, String> jsonMap, String prefix) {
+	private void flattenToMap(JSONObject obj, Map<String, String> jsonMap, String prefix) {
         Set<String> set = obj.keySet();
         for (String key : set) {
             if (obj.get(key).getClass() == JSONObject.class) {
                 JSONObject jsonObject = (JSONObject) obj.get(key);
-                flattenToList(jsonObject, jsonMap, key + prefix + ".");
+                flattenToMap(jsonObject, jsonMap, key + prefix + ".");
             } else if (obj.get(key).getClass() == JSONArray.class) {
                 JSONArray jsonArray = (JSONArray) obj.get(key);
                 if (jsonArray.size() < 1) continue;
-                flattenToList(jsonArray, jsonMap, key);
+                flattenToMap(jsonArray, jsonMap, key);
             } else {
                 String value = (String) obj.get(key);
                 if (value != null && !value.equals("null")) {
@@ -131,16 +131,16 @@ public class JsonCsvUtilsImpl implements JsonCsvUtils {
     	writer.close();
     }
     
-    private void flattenToList(JSONArray obj, Map<String, String> jsonMap, String prefix) {
+    private void flattenToMap(JSONArray obj, Map<String, String> jsonMap, String prefix) {
         int length = obj.size();
         for (int i = 0; i < length; i++) {
             if (obj.get(i).getClass() == JSONArray.class) {
                 JSONArray jsonArray = (JSONArray) obj.get(i);
                 if (jsonArray.size() < 1) continue;
-                flattenToList(jsonArray, jsonMap, prefix + i);
+                flattenToMap(jsonArray, jsonMap, prefix + i);
             } else if (obj.get(i).getClass() == JSONObject.class) {
                 JSONObject jsonObject = (JSONObject) obj.get(i);
-                flattenToList(jsonObject, jsonMap, prefix + ".");
+                flattenToMap(jsonObject, jsonMap, prefix + ".");
             } else {
                 String value = (String) obj.get(i);
                 if (value != null) {
