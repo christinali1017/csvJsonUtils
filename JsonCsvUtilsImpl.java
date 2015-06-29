@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,7 +21,7 @@ import org.json.simple.parser.ParseException;
 import au.com.bytecode.opencsv.CSVReader;
 
 public class JsonCsvUtilsImpl implements JsonCsvUtils {
-	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException, JSONException {
+	public static void main(String[] args) throws FileNotFoundException, IOException, ParseException {
 		JsonCsvUtils j2c = new JsonCsvUtilsImpl();
 		j2c.jsonToCsv("jsonArray.json", "res.csv");
 		j2c.csvToJson("demo.csv", "demo.json");
